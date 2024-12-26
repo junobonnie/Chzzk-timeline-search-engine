@@ -1,5 +1,11 @@
 # 치지직 채팅 타임라인 검색기
 
+## 다운로드 링크
+
+[Download for windows](https://github.com/junobonnie/Chzzk-timeline-search-engine/releases/download/v1.0.0/chzzk-chat.zip)
+
+---
+
 ## 사용방법
 ```
 1. main.exe 실행 (실행 시간이 오래 걸릴 수 있는데 파이썬 특이라 정상임.)

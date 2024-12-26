@@ -1,1 +1,1 @@
-# Chzzk-timeline-search-engine
+# 치지직 채팅 타임라인 검색기

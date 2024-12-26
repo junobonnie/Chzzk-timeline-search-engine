@@ -24,7 +24,7 @@
 
 Thershold: 시간당 채팅수가 Threshold(차트에서 빨간색 선)가 넘는 구간의 타임라인을 반환합니다.
 
-smooting level: smoothing level이 클수록 그래프(파란색 선)가 매끄러워 집니다.
+smooting level: smoothing level이 클수록 그래프(파란색 그래프)가 매끄러워 집니다.
 
 ---
 

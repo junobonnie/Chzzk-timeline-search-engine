@@ -9,13 +9,15 @@
 ```
 
 ## 프로그램 설정 설명
-![스크린샷 2024-12-26 183717](https://github.com/user-attachments/assets/c79da049-d3dc-46f1-9ba3-85f9a61caeb6)
+<img src="https://github.com/user-attachments/assets/c79da049-d3dc-46f1-9ba3-85f9a61caeb6" width="70%" height="70%"/>
 
 
-![스크린샷 2024-12-26 183743](https://github.com/user-attachments/assets/d6a4e1dd-2146-429b-a92e-43b05e4a2a44)
+<img src="https://github.com/user-attachments/assets/d6a4e1dd-2146-429b-a92e-43b05e4a2a44" width="70%" height="70%"/>
 
 필터값: 필터값에 해당하는 단어들이 들어있는 채팅의 시간분포(파란색 그래프)를 보여줍니다.
+
 Thershold: 시간당 채팅수가 Threshold(차트에서 빨간색 선)가 넘는 구간의 타임라인을 반환합니다.
+
 smooting level: smoothing level이 클수록 그래프(파란색 선이) 매끄러워 집니다.
 
 ---

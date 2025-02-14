@@ -131,14 +131,17 @@ def plotting(video_no, duration):
 
 
 def review_list_data(review_list_url):
-    review_infos = requests.get(review_list_url, headers=headers).json()["content"]["data"]
+    content = requests.get(review_list_url, headers=headers).json()["content"]
+    review_infos = content["data"]
+    total_pages = content["totalPages"]
     for i, review_info in enumerate(review_infos):
         image_url = review_info["thumbnailImageUrl"]
         if image_url is None:
-            break
-        response = requests.get(image_url)
-        review_info["image"] = Image.open(BytesIO(response.content))
-    return review_infos
+            review_info["image"] = Image.open("adult.png")
+        else:
+            response = requests.get(image_url)
+            review_info["image"] = Image.open(BytesIO(response.content))
+    return review_infos, total_pages
 
 @st.dialog("채팅내역 검색하기", width="large")
 def chat_searching(video_no, duration):
@@ -160,15 +163,27 @@ st.text_input("스트리머 방송주소 넣기", key = "stream_url")
 st.write(st.session_state.stream_url)
 streamer_no = st.session_state.stream_url.split("/")[-1]
 
-review_list_url = "https://api.chzzk.naver.com/service/v1/channels/"+streamer_no+"/videos?sortType=LATEST&pagingType=PAGE&page=0&size=50&publishDateAt=&videoType="
-
+if "page" not in st.session_state:
+    st.session_state.page = 0
+    st.session_state.old_page = 0
+    
 if "streamer_no" in st.session_state:
     cols = st.columns(col_num)
     ct = [cols[i].container() for i in range(col_num)]
     
-    if (not "review_infos" in st.session_state) or (st.session_state.streamer_no != streamer_no):    
+    if (not "review_infos" in st.session_state) or (st.session_state.streamer_no != streamer_no):
+        st.session_state.page = 0
+        st.session_state.old_page = 0
+        review_list_url = "https://api.chzzk.naver.com/service/v1/channels/"+streamer_no+"/videos?sortType=LATEST&pagingType=PAGE&page="+str(st.session_state.page)+"&size=50&publishDateAt=&videoType="
+
         with st.spinner(text="다시보기 정보 다운로드 중"):
-            st.session_state.review_infos = review_list_data(review_list_url)
+            st.session_state.review_infos, st.session_state.total_pages = review_list_data(review_list_url)
+            
+    elif st.session_state.page != st.session_state.old_page:
+        review_list_url = "https://api.chzzk.naver.com/service/v1/channels/"+streamer_no+"/videos?sortType=LATEST&pagingType=PAGE&page="+str(st.session_state.page)+"&size=50&publishDateAt=&videoType="
+
+        with st.spinner(text="다시보기 정보 다운로드 중"):
+            st.session_state.review_infos, st.session_state.total_pages = review_list_data(review_list_url)
         
     for i, review_info in enumerate(st.session_state.review_infos):
         title = review_info["videoTitle"]
@@ -176,15 +191,31 @@ if "streamer_no" in st.session_state:
         category = review_info["videoCategoryValue"]
         duration = review_info["duration"]
         image_url = review_info["thumbnailImageUrl"]
-        if image_url is None:
-            break
+        # if image_url is None:
+        #     break
         video_no = review_info["videoNo"]
         image = review_info["image"]
         j = i%col_num
-        ct[j].image(image, width = 500)
-        ct[j].text("%s [%s] %s\n%s"%(title,category, second_to_strftime(duration), date.split(" ")[0]))
-        if ct[j].button("채팅 검색하기", key = video_no):
+        ctct = ct[j].container(height=475)
+        ctct.image(image, width = 500)
+        ctct.text("%s [%s] %s\n%s"%(title,category, second_to_strftime(duration), date.split(" ")[0]))
+        if ctct.button("채팅 검색하기", key = video_no):
             chat_searching(video_no, duration)
-    
+            
+    if "review_infos" in st.session_state:
+        j = (i+1)%col_num
+        ctct = ct[j].container(height=475)
+        if st.session_state.page != st.session_state.total_pages-1:
+            if ctct.button("이전 영상 더보기", key="before"):
+                st.session_state.old_page = st.session_state.page
+                st.session_state.page += 1
+                st.rerun()
+                
+        if st.session_state.page != 0:
+            if ctct.button("이후 영상 더보기", key="after"):
+                st.session_state.old_page = st.session_state.page
+                st.session_state.page -= 1
+                st.rerun()
+        
 st.session_state.streamer_no = streamer_no
 

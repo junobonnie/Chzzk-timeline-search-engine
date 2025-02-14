@@ -2,8 +2,7 @@
 
 ## 다운로드 링크
 
-[Download for windows](https://github.com/junobonnie/Chzzk-timeline-search-engine/releases/download/v1.0.0/chzzk-chat.zip)
-
+[Download for windows](https://github.com/junobonnie/Chzzk-timeline-search-engine/releases/download/v2.0.0/chzzk-chat.zip)
 ---
 
 ## 사용방법

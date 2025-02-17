@@ -52,6 +52,12 @@ smooting level: smoothing level이 클수록 그래프(파란색 그래프)가 �
 
 ---
 
+## 빌드 방법
+
+```
+pyinstaller --copy-metadata streamlit --collect-data streamlit ./run.py --noconfirm --onedir --console --upx-dir "D:/upx-4.0.2-win64"
+```
+
 ### 치지직 기본 이모티콘 이름표
 ![image](https://github.com/user-attachments/assets/8893d78e-cd30-4955-880a-f44d96edf0e9)
 ![image](https://github.com/user-attachments/assets/26c34f93-366b-4bfa-9937-976cabdfe301)
